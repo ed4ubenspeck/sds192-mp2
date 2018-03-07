@@ -20,3 +20,9 @@ load("candidates.rda")
 load("committees.rda")
 load("contributions.rda")
 ```
+
+
+```{r}
+library(tidyverse)
+```
+
