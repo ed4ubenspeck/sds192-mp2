@@ -32,6 +32,7 @@ con_can <- candidates %>%
 
 ## Testing some plots
 ```{r}
-test_plot <- ggplot(con_can, aes(x = cand_election_yr, y = 
+test_plot <- ggplot(con_can, aes(x = cand_election_yr, y = transaction_amt)) + 
+  geom_point()
 ```
 
