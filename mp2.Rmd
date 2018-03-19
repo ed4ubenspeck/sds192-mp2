@@ -22,3 +22,16 @@ load("contributions.rda")
 library(tidyverse)
 ```
 
+## Creating table to aggregate all contributions to each candidate, over all recorded years
+```{r}
+con_can <- candidates %>%
+  inner_join(contributions, by = "cand_id") %>%
+  select(cand_id, cand_name, cand_party_affiliation, cand_election_yr, cand_office_district,cand_st1, cand_city, cand_state, cand_zip, cmte_id, committee_name = name, committee_city = city, committee_state = state, transaction_dt, transaction_amt, tran_id) %>%
+  group_by(cand_name)
+```
+
+## Testing some plots
+```{r}
+test_plot <- ggplot(con_can, aes(x = cand_election_yr, y = 
+```
+
