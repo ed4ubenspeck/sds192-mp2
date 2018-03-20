@@ -24,19 +24,55 @@ load("contributions.rda")
 
 ```{r}
 library(tidyverse)
+library(dplyr)
+library(scales)
 ```
 
 ## Creating table to aggregate all contributions to each candidate, over all recorded years
 ```{r}
 con_can <- candidates %>%
   inner_join(contributions, by = "cand_id") %>%
-  select(cand_id, cand_name, cand_party_affiliation, cand_election_yr, cand_office_district,cand_st1, cand_city, cand_state, cand_zip, cmte_id, committee_name = name, committee_city = city, committee_state = state, transaction_dt, transaction_amt, tran_id) %>%
-  group_by(cand_name)
+  select(fec_id = cand_id, cand_name, cand_party_affiliation, cand_election_yr, cand_office_district,cand_st1, cand_city, cand_state, cand_zip, cmte_id, committee_name = name, committee_city = city, committee_state = state, transaction_dt, transaction_amt, tran_id) %>%
+  na.omit() %>%
+  filter(cand_election_yr >= 2010 | cand_election_yr <= 2016)
+  
 ```
 
-## Testing some plots
+## Testing some functions
 ```{r}
-test_plot <- ggplot(con_can, aes(x = cand_election_yr, y = transaction_amt)) + 
-  geom_point()
+
+cut_down_table <- function(state_arg){
+  con_can %>%
+  filter(cand_state == state_arg) %>%
+  group_by(fec_id) %>%
+  summarize( money_sum = sum(transaction_amt), total_tran = n_distinct(tran_id))
+}
+
+join_for_wins  <- function(state_arg){
+  cut_down_table(state_arg) %>%
+  inner_join(house_elections, by = "fec_id") %>%
+    select(fec_id, money_sum, total_tran, state, incumbent, candidate_name, party, ge_winner) %>%
+    filter(party == "D" | party == "R")
+}
+
+state_plot <- function(state_arg){
+  join_for_wins(state_arg) %>%
+    ggplot(aes(x = total_tran, y = money_sum, color = ge_winner)) + 
+    geom_point(position = position_jitter(width = 1, height = 0.5)) + 
+    facet_wrap("party", labeller = labeller(party = c(D = "Democract", R = "Republican"))) + 
+    stat_smooth(method = lm, se = TRUE, fullrange = TRUE, aes(fill = ge_winner), show_guide = FALSE) + 
+    ggtitle(state_arg) +
+    scale_y_continuous(labels = dollar) + 
+    ylab("Total Funds Received") + 
+    xlab("Total Number of Transactions") +
+    theme(legend.title = element_blank()) + 
+    scale_color_discrete(breaks = c("N", "W"), labels = c("No Win", "Win"))
+}
+
+example2 <- join_for_wins("AZ")
+example3 <- join_for_wins("CA")
+state_plot("CA")
+
+
 ```
 
