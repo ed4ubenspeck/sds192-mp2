@@ -20,28 +20,43 @@ load("contributions.rda")
 
 ```{r}
 library(tidyverse)
+library(dplyr)
 ```
 
 ## Creating table to aggregate all contributions to each candidate, over all recorded years
 ```{r}
 con_can <- candidates %>%
   inner_join(contributions, by = "cand_id") %>%
-  select(fec_id = cand_id, cand_name, cand_party_affiliation, cand_election_yr, cand_office_district,cand_st1, cand_city, cand_state, cand_zip, cmte_id, committee_name = name, committee_city = city, committee_state = state, transaction_dt, transaction_amt, tran_id)
+  select(fec_id = cand_id, cand_name, cand_party_affiliation, cand_election_yr, cand_office_district,cand_st1, cand_city, cand_state, cand_zip, cmte_id, committee_name = name, committee_city = city, committee_state = state, transaction_dt, transaction_amt, tran_id) %>%
+  na.omit() %>%
+  filter(cand_election_yr >= 2010 | cand_election_yr <= 2016)
+  
 ```
 
 ## Testing some functions
 ```{r}
-make_some_variables <- function(state_arg){
+
+cut_down_table <- function(state_arg){
   con_can %>%
-    filter(cand_state == state_arg) %>%
-    #group_by(cand_election_yr) %>%
-    #group_by(fec_id) %>%
-    # mutate(money_sum = sum(transaction_amt)) %>%
-    # mutate(total_com = n_distinct(cmte_id)) %>%
-    #group_by(fec_id) %>%
-    summarize(group_by(fec_id, cand_election_year), money_sum = sum(transaction_amt), total_com = n_distinct(cmte_id))
+  filter(cand_state == state_arg) %>%
+  group_by(fec_id) %>%
+  summarize( money_sum = sum(transaction_amt), total_com = n_distinct(cmte_id))
 }
 
-example_table <-  make_some_variables("AL")
+join_for_wins  <- function(state_arg){
+  cut_down_table(state_arg) %>%
+  inner_join(house_elections, by = "fec_id") %>%
+    select(fec_id, money_sum, total_com, state, incumbent, candidate_name, party, ge_winner)
+}
+
+state_plot <- function(state_arg){
+  join_for_wins(state_arg) %>%
+    ggplot(aes(x = total_com, y = money_sum)) + 
+    geom_point()
+}
+
+example2 <- join_for_wins("AZ")
+example3 <- join_for_wins("PA")
+state_plot("PA")
 ```
 
