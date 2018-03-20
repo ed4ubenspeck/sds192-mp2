@@ -26,13 +26,22 @@ library(tidyverse)
 ```{r}
 con_can <- candidates %>%
   inner_join(contributions, by = "cand_id") %>%
-  select(cand_id, cand_name, cand_party_affiliation, cand_election_yr, cand_office_district,cand_st1, cand_city, cand_state, cand_zip, cmte_id, committee_name = name, committee_city = city, committee_state = state, transaction_dt, transaction_amt, tran_id) %>%
-  group_by(cand_name)
+  select(fec_id = cand_id, cand_name, cand_party_affiliation, cand_election_yr, cand_office_district,cand_st1, cand_city, cand_state, cand_zip, cmte_id, committee_name = name, committee_city = city, committee_state = state, transaction_dt, transaction_amt, tran_id)
 ```
 
-## Testing some plots
+## Testing some functions
 ```{r}
-test_plot <- ggplot(con_can, aes(x = cand_election_yr, y = transaction_amt)) + 
-  geom_point()
+make_some_variables <- function(state_arg){
+  con_can %>%
+    filter(cand_state == state_arg) %>%
+    #group_by(cand_election_yr) %>%
+    #group_by(fec_id) %>%
+    # mutate(money_sum = sum(transaction_amt)) %>%
+    # mutate(total_com = n_distinct(cmte_id)) %>%
+    #group_by(fec_id) %>%
+    summarize(group_by(fec_id, cand_election_year), money_sum = sum(transaction_amt), total_com = n_distinct(cmte_id))
+}
+
+example_table <-  make_some_variables("AL")
 ```
 
