@@ -71,6 +71,7 @@ state_plot <- function(state_arg){
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 example2 <- join_for_wins("FL")
 example3 <- join_for_wins("CO")
 state_plot("FL")
@@ -88,13 +89,33 @@ swing_states <- c("CO",
                   "PA",
                   "VA",
                   "WI")
+=======
+# swing_states <- c("CO",
+#                   "FL",
+#                   "IA",
+#                   "MI",
+#                   "MN",
+#                   "OH",
+#                   "NV",
+#                   "NH",
+#                   "NC",
+#                   "PA",
+#                   "VA",
+#                   "WI")
+
+populous_states <- c("TX",
+                     "CA",
+                     "NY",
+                     "PA",
+                     "IL")
+>>>>>>> 319d3c6ba2fca8bee6a9c0dc4f5669d96bcfc51d
 
 example2 <- join_for_wins("AZ")
 example3 <- join_for_wins("CA")
 state_plot("CA")
 >>>>>>> b86a7182242fc4aba1b0a3db479d3c2703f4211a
 
-swing_grid <- lapply(swing_states, state_plot)
+swing_grid <- lapply(populous_states, state_plot)
 
 do.call("grid.arrange", c(swing_grid, ncol = 3))
 
