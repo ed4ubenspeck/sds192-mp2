@@ -54,15 +54,18 @@ join_for_wins  <- function(state_arg){
 
 state_plot <- function(state_arg){
   join_for_wins(state_arg) %>%
-    ggplot(aes(x = total_com, y = money_sum, color = ge_winner)) + 
-    geom_point(position = position_jitter(width = 1, height = 0.5)) + 
+    ggplot(aes(x = total_com, y = money_sum)) + 
+    geom_point(position = position_jitter(width = 1, height = 0.5), aes(color = ge_winner)) + 
     stat_smooth(method = lm, se = TRUE, fullrange = TRUE, aes(fill = ge_winner), show.legend = FALSE) + 
+    scale_fill_manual(values = c(W = "orange", N = "yellow")) + 
     ggtitle(state_arg) +
-    scale_y_continuous(breaks = c(0, 1000000, 3000000, 5000000, 7000000), labels = dollar) + 
+    theme(plot.title = element_text(size = 40, face = "bold")) + 
+    scale_y_continuous(labels = dollar) + 
     ylab("Total Funds Received") + 
     theme(axis.title.y = element_text(margin = margin(r = 30), size = 30)) + 
     theme(axis.text.y = element_text(size = 20)) +
     xlab("Total Number of Transactions") +
+    theme(axis.title.x = element_text(size = 30)) + 
     theme(legend.title = element_blank()) + 
     scale_color_discrete(breaks = c("N", "W"), labels = c("No Win", "Win"))
 }
