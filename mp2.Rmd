@@ -34,31 +34,31 @@ library(gridExtra)
 con_can <- candidates %>%
   inner_join(contributions, by = "cand_id") %>%
   select(fec_id = cand_id, cand_name, cand_party_affiliation, cand_election_yr, cand_office_district,cand_st1, cand_city, cand_state, cand_zip, cmte_id, committee_name = name, committee_city = city, committee_state = state, transaction_dt, transaction_amt, tran_id) %>%
-  na.omit() %>%
-  filter(cand_election_yr >= 2010 | cand_election_yr <= 2016)
+  na.omit()
+  #filter(cand_election_yr >= 2010 | cand_election_yr <= 2016)
   
 ```
 
 ## Testing some functions
-```{r}
+```{r fig.width = 20, fig.height = 10}
 
 cut_down_table <- function(state_arg){
   con_can %>%
   filter(cand_state == state_arg) %>%
   group_by(fec_id) %>%
-  summarize( money_sum = sum(transaction_amt), total_tran = n_distinct(tran_id))
+  summarize( money_sum = sum(transaction_amt), total_com = n_distinct(committee_name))
 }
 
 join_for_wins  <- function(state_arg){
   cut_down_table(state_arg) %>%
   inner_join(house_elections, by = "fec_id") %>%
-    select(fec_id, money_sum, total_tran, state, incumbent, candidate_name, party, ge_winner) %>%
+    select(fec_id, money_sum, total_com, state, incumbent, candidate_name, party, ge_winner) %>%
     filter(party == "D" | party == "R")
 }
 
 state_plot <- function(state_arg){
   join_for_wins(state_arg) %>%
-    ggplot(aes(x = total_tran, y = money_sum, color = ge_winner)) + 
+    ggplot(aes(x = total_com, y = money_sum, color = ge_winner)) + 
     geom_point(position = position_jitter(width = 1, height = 0.5)) + 
     facet_wrap("party", labeller = labeller(party = c(D = "Democract", R = "Republican"))) + 
     stat_smooth(method = lm, se = TRUE, fullrange = TRUE, aes(fill = ge_winner), show_guide = FALSE) + 
