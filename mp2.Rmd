@@ -20,7 +20,7 @@ load("contributions.rda")
 ```
 
 
-```{r}
+```{r, message = FALSE, warning = FALSE}
 library(tidyverse)
 library(dplyr)
 library(scales)
