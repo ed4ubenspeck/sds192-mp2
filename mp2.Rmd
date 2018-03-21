@@ -69,9 +69,10 @@ state_plot <- function(state_arg){
     scale_color_discrete(breaks = c("N", "W"), labels = c("No Win", "Win"))
 }
 
-example2 <- join_for_wins("AZ")
-example3 <- join_for_wins("CA")
-state_plot("CA")
+example2 <- join_for_wins("FL")
+example3 <- join_for_wins("CO")
+state_plot("FL")
+state_plot("CO")
 
 
 ```
