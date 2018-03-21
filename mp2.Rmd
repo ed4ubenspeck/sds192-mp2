@@ -60,7 +60,7 @@ state_plot <- function(state_arg){
   join_for_wins(state_arg) %>%
     ggplot(aes(x = total_com, y = money_sum, color = ge_winner)) + 
     geom_point(position = position_jitter(width = 1, height = 0.5)) + 
-    facet_wrap("party", labeller = labeller(party = c(D = "Democract", R = "Republican"))) + 
+   # facet_wrap("party", labeller = labeller(party = c(D = "Democract", R = "Republican"))) + 
     stat_smooth(method = lm, se = TRUE, fullrange = TRUE, aes(fill = ge_winner), show_guide = FALSE) + 
     ggtitle(state_arg) +
     scale_y_continuous(labels = dollar) + 
@@ -107,8 +107,13 @@ populous_states <- c("TX",
                      "CA",
                      "NY",
                      "PA",
+<<<<<<< HEAD
                      "IL")
 >>>>>>> 319d3c6ba2fca8bee6a9c0dc4f5669d96bcfc51d
+=======
+                     "IL",
+                     "OH")
+>>>>>>> 53802a523531ab2252d83bb2d5dccf5716d2d812
 
 example2 <- join_for_wins("AZ")
 example3 <- join_for_wins("CA")
