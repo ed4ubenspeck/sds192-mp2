@@ -7,6 +7,8 @@ output:
     code_folding: hide
 ---
 
+## Background 
+
 
 ## Loading the data
 
@@ -28,6 +30,7 @@ library(gridExtra)
 ```
 
 ## Creating table to aggregate all contributions to each candidate, over all recorded years
+
 ```{r, message = FALSE, warning = FALSE}
 # joining tables to align candidate IDs with relevant information on campaign contributions
 con_can <- candidates %>%
@@ -38,7 +41,7 @@ con_can <- candidates %>%
   
 ```
 
-## Testing some functions
+## Functions to wrangle data and create plots
 ```{r fig.width = 20, fig.height = 10, message = FALSE, warning = FALSE}
 
 # function to further refine table by state
