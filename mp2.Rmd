@@ -27,31 +27,37 @@ library(gridExtra)
 
 ## Creating table to aggregate all contributions to each candidate, over all recorded years
 ```{r}
+# joining tables to align candidate IDs with relevant information on campaign contributions
 con_can <- candidates %>%
   inner_join(contributions, by = "cand_id") %>%
   select(fec_id = cand_id, cand_name, cand_party_affiliation, cand_election_yr, cand_office_district,cand_st1, cand_city, cand_state, cand_zip, cmte_id, committee_name = name, committee_city = city, committee_state = state, transaction_dt, transaction_amt, tran_id) %>%
+  # ommission of rows with missing data
   na.omit()
-  #filter(cand_election_yr >= 2010 | cand_election_yr <= 2016)
   
 ```
 
 ## Testing some functions
 ```{r fig.width = 20, fig.height = 10}
 
+# function to further refine table by state
 cut_down_table <- function(state_arg){
   con_can %>%
   filter(cand_state == state_arg) %>%
   group_by(fec_id) %>%
+  # summary of total money received by candidate, as well as total number of committees contributing
   summarize( money_sum = sum(transaction_amt), total_com = n_distinct(committee_name))
 }
 
+# function to join with house_elections to provide information on election year and result
 join_for_wins  <- function(state_arg){
   cut_down_table(state_arg) %>%
   inner_join(house_elections, by = "fec_id") %>%
-    select(fec_id, money_sum, total_com, state, incumbent, candidate_name, party, ge_winner) %>%
-    filter(party == "D" | party == "R")
+    select(fec_id, money_sum, total_com, state, incumbent, candidate_name, party, ge_winner)
+    # include only Democrats and Republicans
+    # filter(party == "D" | party == "R")
 }
 
+# function to generate individual plots
 state_plot <- function(state_arg){
   join_for_wins(state_arg) %>%
     ggplot(aes(x = total_com, y = money_sum)) + 
