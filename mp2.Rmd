@@ -76,6 +76,7 @@ state_plot <- function(state_arg){
     scale_color_discrete(breaks = c("N", "W"), labels = c("No Win", "Win"))
 }
 
+# defining populous states to plot for
 populous_states <- c("TX",
                      "CA",
                      "NY",
@@ -83,12 +84,10 @@ populous_states <- c("TX",
                      "IL",
                      "OH")
 
-example2 <- join_for_wins("AZ")
-example3 <- join_for_wins("CA")
-state_plot("CA")
-
+# making a list of all plots
 swing_grid <- lapply(populous_states, state_plot)
 
+# arranging all plots into a grid for viewing
 do.call("grid.arrange", c(swing_grid, ncol = 3))
 
 ```
