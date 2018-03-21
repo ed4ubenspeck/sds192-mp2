@@ -58,8 +58,9 @@ state_plot <- function(state_arg){
     geom_point(position = position_jitter(width = 1, height = 0.5)) + 
     stat_smooth(method = lm, se = TRUE, fullrange = TRUE, aes(fill = ge_winner), show.legend = FALSE) + 
     ggtitle(state_arg) +
-    scale_y_continuous(labels = dollar) + 
+    scale_y_continuous(breaks = c(0, 1000000, 3000000, 5000000, 7000000), labels = dollar) + 
     ylab("Total Funds Received") + 
+    theme(axis.text.y = element_text(size = 13)) +
     xlab("Total Number of Transactions") +
     theme(legend.title = element_blank()) + 
     scale_color_discrete(breaks = c("N", "W"), labels = c("No Win", "Win"))
