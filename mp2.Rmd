@@ -43,7 +43,7 @@ con_can <- candidates %>%
 cut_down_table <- function(state_arg){
   con_can %>%
   filter(cand_state == state_arg) %>%
-  group_by(fec_id) %>%
+  group_by(fec_id, cand_election_yr) %>%
   # summary of total money received by candidate, as well as total number of committees contributing
   summarize( money_sum = sum(transaction_amt), total_com = n_distinct(committee_name))
 }
