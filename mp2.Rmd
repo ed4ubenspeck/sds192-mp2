@@ -56,7 +56,6 @@ state_plot <- function(state_arg){
   join_for_wins(state_arg) %>%
     ggplot(aes(x = total_com, y = money_sum, color = ge_winner)) + 
     geom_point(position = position_jitter(width = 1, height = 0.5)) + 
-   # facet_wrap("party", labeller = labeller(party = c(D = "Democract", R = "Republican"))) + 
     stat_smooth(method = lm, se = TRUE, fullrange = TRUE, aes(fill = ge_winner), show.legend = FALSE) + 
     ggtitle(state_arg) +
     scale_y_continuous(labels = dollar) + 
