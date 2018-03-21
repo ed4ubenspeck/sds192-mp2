@@ -67,19 +67,6 @@ state_plot <- function(state_arg){
     scale_color_discrete(breaks = c("N", "W"), labels = c("No Win", "Win"))
 }
 
-# swing_states <- c("CO",
-#                   "FL",
-#                   "IA",
-#                   "MI",
-#                   "MN",
-#                   "OH",
-#                   "NV",
-#                   "NH",
-#                   "NC",
-#                   "PA",
-#                   "VA",
-#                   "WI")
-
 populous_states <- c("TX",
                      "CA",
                      "NY",
