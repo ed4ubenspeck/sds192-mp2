@@ -80,15 +80,12 @@ state_plot <- function(state_arg){
     scale_color_manual(values = c(W = "orange", N = "yellow"))
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 example2 <- join_for_wins("FL")
 example3 <- join_for_wins("CO")
 state_plot("FL")
 state_plot("CO")
-=======
+
 swing_states <- c("CO",
                   "FL",
                   "IA",
@@ -101,7 +98,7 @@ swing_states <- c("CO",
                   "PA",
                   "VA",
                   "WI")
-=======
+
 # swing_states <- c("CO",
 #                   "FL",
 #                   "IA",
@@ -115,32 +112,22 @@ swing_states <- c("CO",
 #                   "VA",
 #                   "WI")
 
-=======
->>>>>>> 4d79a59ebea7b286291370962bc7a796346dbed7
-=======
+
 # defining populous states to plot for
->>>>>>> 917348bf5d59685cfd9283bcd13952d6eb0d684f
+
 populous_states <- c("TX",
                      "CA",
                      "NY",
                      "PA",
-<<<<<<< HEAD
-                     "IL")
->>>>>>> 319d3c6ba2fca8bee6a9c0dc4f5669d96bcfc51d
-=======
                      "IL",
                      "OH")
->>>>>>> 53802a523531ab2252d83bb2d5dccf5716d2d812
-
-<<<<<<< HEAD
 example2 <- join_for_wins("AZ")
 example3 <- join_for_wins("CA")
 state_plot("CA")
->>>>>>> b86a7182242fc4aba1b0a3db479d3c2703f4211a
 
-=======
+
 # making a list of all plots
->>>>>>> 917348bf5d59685cfd9283bcd13952d6eb0d684f
+
 swing_grid <- lapply(populous_states, state_plot)
 
 # arranging all plots into a grid for viewing
