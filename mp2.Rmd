@@ -22,6 +22,7 @@ load("contributions.rda")
 library(tidyverse)
 library(dplyr)
 library(scales)
+library(gridExtra)
 ```
 
 ## Creating table to aggregate all contributions to each candidate, over all recorded years
@@ -65,10 +66,26 @@ state_plot <- function(state_arg){
     scale_color_discrete(breaks = c("N", "W"), labels = c("No Win", "Win"))
 }
 
+swing_states <- c("CO",
+                  "FL",
+                  "IA",
+                  "MI",
+                  "MN",
+                  "OH",
+                  "NV",
+                  "NH",
+                  "NC",
+                  "PA",
+                  "VA",
+                  "WI")
+
 example2 <- join_for_wins("AZ")
 example3 <- join_for_wins("CA")
 state_plot("CA")
 
+swing_grid <- lapply(swing_states, state_plot)
+
+do.call("grid.arrange", c(swing_grid, ncol = 3))
 
 ```
 
