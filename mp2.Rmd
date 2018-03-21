@@ -2,7 +2,9 @@
 title: "Mini-Project 2"
 author: "Your Name Here"
 date: "October 31, 2017"
-output: html_document
+output:
+  html_document:
+    code_folding: hide
 ---
 
 
@@ -26,7 +28,7 @@ library(gridExtra)
 ```
 
 ## Creating table to aggregate all contributions to each candidate, over all recorded years
-```{r}
+```{r, message = FALSE, warning = FALSE}
 # joining tables to align candidate IDs with relevant information on campaign contributions
 con_can <- candidates %>%
   inner_join(contributions, by = "cand_id") %>%
@@ -37,7 +39,7 @@ con_can <- candidates %>%
 ```
 
 ## Testing some functions
-```{r fig.width = 20, fig.height = 10}
+```{r fig.width = 20, fig.height = 10, message = FALSE, warning = FALSE}
 
 # function to further refine table by state
 cut_down_table <- function(state_arg){
