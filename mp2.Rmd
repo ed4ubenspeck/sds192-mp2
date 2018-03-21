@@ -70,7 +70,7 @@ state_plot <- function(state_arg){
     ylab("Total Funds Received") + 
     theme(axis.title.y = element_text(margin = margin(r = 30), size = 30)) + 
     theme(axis.text.y = element_text(size = 20)) +
-    xlab("Total Number of Transactions") +
+    xlab("Total Committees Donating") +
     theme(axis.title.x = element_text(size = 30)) + 
     theme(legend.title = element_blank()) +
     scale_color_manual(values = c(W = "orange", N = "yellow"))
