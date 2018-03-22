@@ -41,7 +41,15 @@ library(gridExtra)
 # joining tables to align candidate IDs with relevant information on campaign contributions
 con_can <- candidates %>%
   inner_join(contributions, by = "cand_id") %>%
-  select(fec_id = cand_id, cand_name, cand_party_affiliation, cand_election_yr, cand_office_district, cand_st1, cand_city, cand_state, cand_zip, cmte_id, committee_name = name, committee_city = city, committee_state = state, transaction_dt, transaction_amt, tran_id) %>%
+  select(fec_id = cand_id, 
+         cand_name, 
+         cand_party_affiliation, 
+         cand_election_yr, 
+         cand_state,
+         cmte_id, 
+         committee_name = name,
+         transaction_amt, 
+         tran_id) %>%
   # ommission of rows with missing data
   na.omit()
 ```
@@ -53,25 +61,43 @@ con_can <- candidates %>%
 cut_down_table <- function(state_arg) {
   con_can %>%
     filter(cand_state == state_arg) %>%
-    group_by(fec_id, cand_election_yr) %>%
+    group_by(fec_id, 
+             cand_election_yr) %>%
     # summary of total money received by candidate, as well as total number of committees contributing
-    summarize(money_sum = sum(transaction_amt), total_com = n_distinct(committee_name))
+    summarize(money_sum = sum(transaction_amt), 
+              total_com = n_distinct(committee_name))
 }
 
 # function to join with house_elections to provide information on election year and result
 join_for_wins <- function(state_arg) {
   cut_down_table(state_arg) %>%
     inner_join(house_elections, by = "fec_id") %>%
-    select(fec_id, money_sum, total_com, state, incumbent, candidate_name, party, ge_winner)
+    select(fec_id, 
+           money_sum, 
+           total_com, 
+           state,
+           candidate_name, 
+           party, 
+           ge_winner)
 }
 
 # function to generate individual plots
 state_plot <- function(state_arg) {
   join_for_wins(state_arg) %>%
-    ggplot(aes(x = total_com, y = money_sum, fill = ge_winner)) +
-    geom_point(position = position_jitter(width = 1, height = 0.5), shape = 21, color = "transparent", size = 3) +
-    scale_fill_manual(values = c(W = "orange", N = "blue"), label = c(W = "Win", N = "No Win")) +
-    stat_smooth(method = lm, se = TRUE, fullrange = TRUE, aes(fill = ge_winner, color = ge_winner), show.legend = FALSE) +
+    ggplot(aes(x = total_com, 
+               y = money_sum, 
+               fill = ge_winner)) +
+    geom_point(position = position_jitter(width = 1, height = 0.5), 
+               shape = 21, 
+               color = "transparent", 
+               size = 3) +
+    scale_fill_manual(values = c(W = "orange", N = "blue"), 
+                      label = c(W = "Win", N = "No Win")) +
+    stat_smooth(method = lm, 
+                se = TRUE, 
+                fullrange = TRUE, 
+                aes(fill = ge_winner, color = ge_winner), 
+                show.legend = FALSE) +
     ggtitle(state_arg) +
     theme(plot.title = element_text(size = 40, face = "bold")) +
     scale_y_continuous(labels = dollar) +
