@@ -1,7 +1,7 @@
 ---
 title: "Mini-Project 2"
 author: "Danica Miguel, Sophia Tannir, and Emily Daubenspeck"
-date: "October 31, 2017"
+date: "23 March 2018"
 output:
   html_document:
     code_folding: hide
@@ -9,7 +9,7 @@ output:
 
 ## Background 
 
-#### In the age of Big Data, individuals are demonstrating a proclivity towards data-driven tools in order to glean insight into their chances at success in certain areas. Nowhere is this seen as prominently as in the world of higher education, where students are free to use a variety of online services like [Niche](https://www.niche.com/colleges/admissions-calculator/) and [Cappex](https://www.cappex.com/hq/scattergram) to plot themselves as data points against prior applicants to any college imaginable; typically, individuals provide two numeric values (i.e. GPA, SAT/ACT scores, etc.), which act as the axes for the generated data visualization. In their most basic form, these plots help determine if admission to a given school is likely. **With our data visualization, we have sought to create a similar experience for the aspiring politician; where do a candidate’s campaign finance metrics place them among past candidates, and are they on the path of those who have won, or those who have lost?**
+#### In the age of Big Data, individuals are demonstrating a proclivity towards data-driven tools in order to glean insight into their chances at success in certain areas. Nowhere is this seen as prominently as in the world of higher education, where students are free to use a variety of online services like [Niche](https://www.niche.com/colleges/admissions-calculator/) and [Cappex](https://www.cappex.com/hq/scattergram) to plot themselves as data points against prior applicants to any college imaginable; typically, individuals provide two numeric values, usually a continuous varirable (i.e. GPA, SAT/ACT scores, etc.), which act as the axes for the generated data visualization. In their most basic form, these plots help determine if admission to a given school is likely. **With our data visualization, we have sought to create a similar experience for the aspiring politician; where do a candidate’s campaign finance metrics place them among past candidates, and are they on the path of those who have won, or those who have lost?**
 
 
 
@@ -132,8 +132,8 @@ do.call("grid.arrange", c(swing_grid, ncol = 3))
 
 ## Final thoughts
 
-#### Due to the nature of the data provided, we were limited in what we could produce while maintaining some degree of statistical validity. We chose not to facet within each state by political party, as this resulted in plots with very few points. Furthermore, we chose to limit our work to the six most populous states in the U.S, as they provided much more data and allowed us to create something more in line with our original vision for the graphic. Finally, we opted not to omit incumbents who were running unopposed, as this would have limited our pool of data even further. Rather than working to perform a deeper analysis of this data as a whole, we were most interested in working to produce something evocative of one of today’s most ubiquitous, interactive data visualizations. With our data graphic, a prospective candidate in any of the six states considered would be able to examine her campaign finance metrics and plot herself against those who have come before her; she might pay special attention to her own point’s position relative to the Win or No Win confidence intervals, and perhaps adjust her financing goals accordingly. 
+#### Due to the nature of the data provided, we were limited in what we could produce while maintaining some degree of statistical validity. We chose not to facet within each state by political party, as this resulted in plots with very few points. Furthermore, we chose to limit our work to the six most populous states in the U.S, as they provided much more data, as more populous states hold more seats in the House of Representatives. This allowed us to create something more in line with our original vision for the graphic. Finally, we opted not to omit incumbents who were running unopposed, as this would have limited our pool of data even further. Rather than working to perform a deeper analysis of this data as a whole, we were most interested in working to produce something evocative of one of today’s most ubiquitous, interactive data visualizations. With our data graphic, a prospective candidate in any of the six states considered would be able to examine her campaign finance metrics and plot herself against those who have come before her; she might pay special attention to her own point’s position relative to the Win or No Win confidence intervals, and perhaps adjust her financing goals accordingly. 
 
 
-
+Current word count: 634
 
