@@ -1,6 +1,6 @@
 ---
 title: "Mini-Project 2"
-author: "Your Name Here"
+author: "Danica Miguel, Sophia Tannir, and Emily Daubenspeck"
 date: "October 31, 2017"
 output:
   html_document:
@@ -102,8 +102,6 @@ swing_grid <- lapply(populous_states, state_plot)
 do.call("grid.arrange", c(swing_grid, ncol = 3))
 
 ```
-
-
 
 
 ## Final thoughts
