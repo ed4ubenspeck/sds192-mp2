@@ -1,6 +1,6 @@
 ---
 title: "Mini-Project 2"
-author: "Your Name Here"
+author: "Danica Miguel, Sophia Tannir, and Emily Daubenspeck"
 date: "October 31, 2017"
 output: html_document
 ---
@@ -9,8 +9,9 @@ output: html_document
 library(tidyverse)
 ```
 
+#### In the age of Big Data, individuals are demonstrating a proclivity towards data-driven tools in order to glean insight into their chances at success in certain areas. Nowhere is this seen as prominently as in the world of higher education, where students are free to use a variety of online services like [Niche](https://www.niche.com/colleges/admissions-calculator/) and [Cappex](https://www.cappex.com/hq/scattergram) to plot themselves as data points against prior applicants to any college imaginable; typically, individuals provide two numeric values (i.e. GPA, SAT/ACT scores, etc.), which act as the axes for the generated data visualization. In their most basic form, these plots help determine if admission to a given school is likely. **With our data visualization, we have sought to create a similar experience for the aspiring politician; where do a candidate’s campaign finance metrics place them among past candidates, and are they on the path of those who have won, or those who have lost?**
 
-## Loading the data
+
 
 This project is so interesting and relevant to my life!
 
@@ -22,60 +23,107 @@ load("contributions.rda")
 ```
 
 
+
 ```{r}
+
+```{r, message = FALSE, warning = FALSE}
+>>>>>>> fe2314ad4f12ba6d3ded20bd4a188719209e573e
 library(tidyverse)
 library(dplyr)
 library(scales)
 library(gridExtra)
 ```
 
+
 ## Creating table to aggregate all contributions to each candidate, over all recorded years
 ```{r}
+=======
+
+
+
+## Data wrangling and plots
+
+#### In order to produce a meaningful graphic, it was necessary to organize the relevant data into a format compatible with our vision^[[GitHub Repository](https://github.com/ed4ubenspeck/sds192-mp2.git)]. We began by performing a join for the dataframe candidates and the dataframe contributions by the variable `cand_id` to yield a dataframe with information about contributions organized by candidate. Relevant variables were selected, rows with missing data omitted, and this dataframe informed the creation of three functions, which further refine our data. The first and second of these functions perform additional data wrangling to filter for candidates from a specific state, calculate our values for the x- and y-axes in the final plot, and perform a second join with house_elections to determine if a particular candidate won or lost their general election. The third function creates a scatterplot for the state of interest, enhanced by a stat_smooth layer to show  linear models and confidence intervals for the position of winning and losing candidates within the state’s distribution. 
+
+#### The selection of the relevant variables for the axes of the plots was of considerable interest to us. We wanted to provide insight related to the total amount of committee money that was received in contributions, but we were torn between plotting this against either the total number of committee transactions or the total number of committees. Eventually, we chose the latter; it is possible that this value could indicate the breadth of support for a candidate, especially when comparing candidates who received funding from only a few committees to those who received contributions from many. 
+
+
+```{r, message = FALSE, warning = FALSE}
+>>>>>>> fe2314ad4f12ba6d3ded20bd4a188719209e573e
 # joining tables to align candidate IDs with relevant information on campaign contributions
 con_can <- candidates %>%
   inner_join(contributions, by = "cand_id") %>%
-  select(fec_id = cand_id, cand_name, cand_party_affiliation, cand_election_yr, cand_office_district,cand_st1, cand_city, cand_state, cand_zip, cmte_id, committee_name = name, committee_city = city, committee_state = state, transaction_dt, transaction_amt, tran_id) %>%
+  select(fec_id = cand_id, 
+         cand_name, 
+         cand_party_affiliation, 
+         cand_election_yr, 
+         cand_state,
+         cmte_id, 
+         committee_name = name,
+         transaction_amt, 
+         tran_id) %>%
   # ommission of rows with missing data
   na.omit()
-  
 ```
+
 
 ## Testing some functions
 ```{r fig.width = 20, fig.height = 10}
 
+
+```{r fig.width = 20, fig.height = 10, message = FALSE, warning = FALSE}
+
 # function to further refine table by state
-cut_down_table <- function(state_arg){
+cut_down_table <- function(state_arg) {
   con_can %>%
-  filter(cand_state == state_arg) %>%
-  group_by(fec_id, cand_election_yr) %>%
-  # summary of total money received by candidate, as well as total number of committees contributing
-  summarize( money_sum = sum(transaction_amt), total_com = n_distinct(committee_name))
+    filter(cand_state == state_arg) %>%
+    group_by(fec_id, 
+             cand_election_yr) %>%
+    # summary of total money received by candidate, as well as total number of committees contributing
+    summarize(money_sum = sum(transaction_amt), 
+              total_com = n_distinct(committee_name))
 }
 
 # function to join with house_elections to provide information on election year and result
-join_for_wins  <- function(state_arg){
+join_for_wins <- function(state_arg) {
   cut_down_table(state_arg) %>%
-  inner_join(house_elections, by = "fec_id") %>%
-    select(fec_id, money_sum, total_com, state, incumbent, candidate_name, party, ge_winner)
-    # include only Democrats and Republicans
-    # filter(party == "D" | party == "R")
+    inner_join(house_elections, by = "fec_id") %>%
+    select(fec_id, 
+           money_sum, 
+           total_com, 
+           state,
+           candidate_name, 
+           party, 
+           ge_winner)
 }
 
 # function to generate individual plots
-state_plot <- function(state_arg){
+state_plot <- function(state_arg) {
   join_for_wins(state_arg) %>%
-    ggplot(aes(x = total_com, y = money_sum, fill = ge_winner)) + 
-    geom_point(position = position_jitter(width = 1, height = 0.5), shape = 21, color = "transparent", size = 3) + 
-    scale_fill_manual(values = c(W = "orange", N = "blue"), label = c(W = "Win", N = "No Win")) + 
-    stat_smooth(method = lm, se = TRUE, fullrange = TRUE, aes(fill = ge_winner, color = ge_winner), show.legend = FALSE) + 
+    ggplot(aes(x = total_com, 
+               y = money_sum, 
+               fill = ge_winner)) +
+    geom_point(position = position_jitter(width = 1, height = 0.5), 
+               shape = 21, 
+               color = "transparent", 
+               size = 3) +
+    scale_fill_manual(values = c(W = "orange", N = "blue"), 
+                      label = c(W = "Win", N = "No Win")) +
+    stat_smooth(method = lm, 
+                se = TRUE, 
+                fullrange = TRUE, 
+                aes(fill = ge_winner, color = ge_winner), 
+                show.legend = FALSE) +
     ggtitle(state_arg) +
-    theme(plot.title = element_text(size = 40, face = "bold")) + 
-    scale_y_continuous(labels = dollar) + 
-    ylab("Total Funds Received") + 
-    theme(axis.title.y = element_text(margin = margin(r = 30), size = 30)) + 
+    theme(plot.title = element_text(size = 40, face = "bold")) +
+    scale_y_continuous(labels = dollar) +
+    ylab("Total Funds Received") +
+    theme(axis.title.y = element_text(margin = margin(r = 30), size = 30)) +
     theme(axis.text.y = element_text(size = 20)) +
     xlab("Total Committees Donating") +
-    theme(axis.title.x = element_text(size = 30)) + 
+    theme(axis.title.x = element_text(margin = margin(t = 30), size = 30)) +
+    theme(axis.text.x = element_text(margin = margin(t = 20), size = 20)) +
+    scale_x_continuous(limits = c(0, 150)) +
     theme(legend.title = element_blank()) +
     scale_color_manual(values = c(W = "orange", N = "blue"))
 }
@@ -115,6 +163,7 @@ swing_states <- c("CO",
 
 # defining populous states to plot for
 
+
 populous_states <- c("TX",
                      "CA",
                      "NY",
@@ -126,14 +175,29 @@ example3 <- join_for_wins("CA")
 state_plot("CA")
 
 
+populous_states <- c(
+  "TX",
+  "CA",
+  "NY",
+  "PA",
+  "IL",
+  "OH"
+)
+
+
 # making a list of all plots
 
 swing_grid <- lapply(populous_states, state_plot)
 
-## guides function for legends 
-
 # arranging all plots into a grid for viewing
 do.call("grid.arrange", c(swing_grid, ncol = 3))
-
 ```
+
+
+## Final thoughts
+
+#### Due to the nature of the data provided, we were limited in what we could produce while maintaining some degree of statistical validity. We chose not to facet within each state by political party, as this resulted in plots with very few points. Furthermore, we chose to limit our work to the six most populous states in the U.S, as they provided much more data and allowed us to create something more in line with our original vision for the graphic. Finally, we opted not to omit incumbents who were running unopposed, as this would have limited our pool of data even further. Rather than working to perform a deeper analysis of this data as a whole, we were most interested in working to produce something evocative of one of today’s most ubiquitous, interactive data visualizations. With our data graphic, a prospective candidate in any of the six states considered would be able to examine her campaign finance metrics and plot herself against those who have come before her; she might pay special attention to her own point’s position relative to the Win or No Win confidence intervals, and perhaps adjust her financing goals accordingly. 
+
+
+
 
