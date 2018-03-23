@@ -136,6 +136,6 @@ do.call("grid.arrange", c(swing_grid, ncol = 3))
 #### Due to the nature of the data provided, we were limited in what we could produce while maintaining statistical validity. We chose not to facet by political party, as this resulted in plots with very few points. Furthermore, we chose to limit our work to the six most populous states in the U.S, as they provided much more data, as more populous states hold more seats in the House of Representatives. This allowed us to create something more in line with our original vision for the graphic. Finally, we opted not to omit incumbents who were running unopposed, as this would have limited our pool of data even further. Rather than working to perform a deeper analysis of this data as a whole, we were most interested in working to produce something evocative of one of today’s most ubiquitous, interactive data visualizations. With our data graphic, a prospective candidate in any of the six states considered would be able to examine her campaign finance metrics and plot herself against those who have come before her; she might pay special attention to her own point’s position relative to the Win or No Win confidence intervals, and perhaps adjust her financing goals accordingly. 
 
 
-Current word count: 634
+Current word count: 586
 
 
