@@ -95,7 +95,8 @@ state_plot <- function(state_arg) {
                       label = c(W = "Win", N = "No Win")) +
     stat_smooth(method = lm, 
                 se = TRUE, 
-                fullrange = TRUE, 
+                fullrange = TRUE,
+                alpha = .2,
                 aes(fill = ge_winner, color = ge_winner), 
                 show.legend = FALSE) +
     ggtitle(state_arg) +
