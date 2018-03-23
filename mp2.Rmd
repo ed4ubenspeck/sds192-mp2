@@ -27,7 +27,7 @@ load("contributions.rda")
 ```{r}
 
 ```{r, message = FALSE, warning = FALSE}
->>>>>>> fe2314ad4f12ba6d3ded20bd4a188719209e573e
+
 library(tidyverse)
 library(dplyr)
 library(scales)
@@ -37,7 +37,7 @@ library(gridExtra)
 
 ## Creating table to aggregate all contributions to each candidate, over all recorded years
 ```{r}
-=======
+
 
 
 
@@ -49,7 +49,7 @@ library(gridExtra)
 
 
 ```{r, message = FALSE, warning = FALSE}
->>>>>>> fe2314ad4f12ba6d3ded20bd4a188719209e573e
+
 # joining tables to align candidate IDs with relevant information on campaign contributions
 con_can <- candidates %>%
   inner_join(contributions, by = "cand_id") %>%
