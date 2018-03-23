@@ -100,7 +100,7 @@ state_plot <- function(state_arg) {
                 aes(fill = ge_winner, color = ge_winner), 
                 show.legend = FALSE) +
     ggtitle(state_arg) +
-    theme(plot.title = element_text(size = 40, face = "bold")) +
+    theme(plot.title = element_text(size = 40, face = "bold"), legend.text = element_text(size = 15.5)) +
     scale_y_continuous(labels = dollar) +
     ylab("Total Funds Received") +
     theme(axis.title.y = element_text(margin = margin(r = 30), size = 30)) +
