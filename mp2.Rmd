@@ -9,7 +9,7 @@ output:
 
 ## Background 
 
-#### In the age of Big Data, individuals are demonstrating a proclivity towards data-driven tools in order to glean insight into their chances at success in certain areas. Nowhere is this seen as prominently as in the world of higher education, where students are free to use online services like [Niche](https://www.niche.com/colleges/admissions-calculator/) to plot themselves as data points against prior applicants to colleges; typically, individuals provide two numeric values, usually a score and/or GPA, which act as the axes for the generated data visualization. In their most basic form, these plots help determine if admission to a given school is likely. **With our data visualization, we have created a similar experience for the aspiring politician; where do a candidate’s campaign finance metrics place them among past candidates, and are they on the path of those who have won, or those who have lost?**
+#### In the age of Big Data, individuals are demonstrating a proclivity towards data-driven tools in order to glean insight into their chances at success in certain areas. Nowhere is this seen as prominently as in the world of higher education, where students are free to use online services like [Niche](https://www.niche.com/colleges/admissions-calculator/) to plot themselves as data points against prior applicants to colleges; typically, individuals provide two numeric values, usually a score and/or GPA, which act as the axes for the generated data visualization. In their most basic form, these plots help determine if admission to a given school is likely. **With our data visualization^[[GitHub Repository](https://github.com/ed4ubenspeck/sds192-mp2.git)], we have created a similar experience for the aspiring politician; where do a candidate’s campaign finance metrics place them among past candidates, and are they on the path of those who have won, or those who have lost?**
 
 
 
@@ -26,15 +26,6 @@ library(dplyr)
 library(scales)
 library(gridExtra)
 ```
-
-
-
-
-## Data wrangling and plots
-
-#### In order to produce a meaningful graphic, it was necessary to organize the relevant data into a format compatible with our vision^[[GitHub Repository](https://github.com/ed4ubenspeck/sds192-mp2.git)]. We first performed a join for the dataframes ``candidates`` and ``contributions`` by the variable `cand_id` to yield a dataframe with contributions organized by candidate. Relevant variables were selected, rows with missing data omitted, and this dataframe informed the creation of three functions. The first and second of these functions perform filter for candidates from a specific state, calculate our values for the x- and y-axes in the final plot, and perform a second join with ``house_elections`` to determine if a particular candidate won or lost their general election. The third function creates a scatterplot for the state of interest, enhanced by a stat_smooth layer to show linear models and confidence intervals for the position of winning and losing candidates within the distribution. 
-
-#### Concerning variable selection, we wanted to provide insight into the total amount of committee money that was received in contributions, but we were torn between plotting this against either the total number of committee transactions or the total number of committees. Eventually, we chose the latter; it is possible that this value could indicate the breadth of support for a candidate when comparing candidates who received funding from only a few committees to those who received contributions from many. 
 
 
 ```{r, message = FALSE, warning = FALSE}
@@ -63,7 +54,7 @@ cut_down_table <- function(state_arg) {
     filter(cand_state == state_arg) %>%
     group_by(fec_id, 
              cand_election_yr) %>%
-    # summary of total money received by candidate, as well as total number of committees contributing
+    # summary of total money received by candidate, as well as total number of committees contributing per candidate
     summarize(money_sum = sum(transaction_amt), 
               total_com = n_distinct(committee_name))
 }
@@ -130,6 +121,9 @@ swing_grid <- lapply(populous_states, state_plot)
 do.call("grid.arrange", c(swing_grid, ncol = 3))
 ```
 
+## Examining the Graphic
+
+#### Concerning variable selection, we wanted to provide insight into the total amount of committee money that was received in contributions, but we were torn between plotting this against either the total number of committee transactions or the total number of committees. Eventually, we chose the latter; it is possible that this value could indicate the breadth of support for a candidate when comparing candidates who received funding from only a few committees to those who received contributions from many. 
 
 ## Final thoughts
 
